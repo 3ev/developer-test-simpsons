@@ -1,6 +1,7 @@
-I ended up running out of time to do CHANGE #2 as I spent too long with the issue #3
+I ended up running out of time to do CHANGE #1 as I spent too long with the issue #3
 
-If i did have more time I think I would have setup a dropdown menu where each time the selected item changed
-I would use array_filter(array_column($data, 'season 4'))
+I have never tried caching but I would save the data received on the first load to a json file
+and load that in and after a specific timeframe do another api call and then save that data.
 
-Its possible that this method would change if I was to look into it more.
+Then when the user filters an item when that gets implemented I would call the api again then just
+to receive the most up to date results.

@@ -1,0 +1,6 @@
+I ended up running out of time to do CHANGE #2 as I spent too long with the issue #3
+
+If i did have more time I think I would have setup a dropdown menu where each time the selected item changed
+I would use array_filter(array_column($data, 'season 4'))
+
+Its possible that this method would change if I was to look into it more.

@@ -15,6 +15,11 @@
     </div>
 
     <div class="container">
+      {% if errorMsg %}
+        <div class="row text-center">
+            <h2> {{ errorMsg }} </h2>
+        </div>
+      {% else %}
         {% for episode in episodes %}
             {% if loop.index%2 == 1 %}<div class="row">{%endif %}
 
@@ -22,6 +27,7 @@
         
             {% if loop.index%2 == 0 %}</div>{%endif %}
         {% endfor %}
+      {% endif %}
     </div>
 
     <footer class="footer">

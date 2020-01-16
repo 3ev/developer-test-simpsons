@@ -4,20 +4,25 @@ require_once '../vendor/autoload.php';
 //Load Twig templating environment
 $loader = new Twig_Loader_Filesystem('../templates/');
 $twig = new Twig_Environment($loader, ['debug' => true]);
+$errorMsg = "";
 
 //Get the episodes from the API
-$client = new GuzzleHttp\Client();
-$res = $client->request('GET', 'http://3ev.org/dev-test-api/');
-$data = json_decode($res->getBody(), true);
+try {
+    $client = new GuzzleHttp\Client();
+    $res = $client->request('GET', 'http://3ev.org/dev-test-api/');
+    $data = json_decode($res->getBody(), true);
 
-//Sort the episodes
-array_multisort(
-    array_column($data, 'season'),
-    SORT_ASC,
-    array_column($data, 'episode'),
-    SORT_ASC,
-    $data
-);
+    //Sort the episodes
+    array_multisort(
+        array_column($data, 'season'),
+        SORT_ASC,
+        array_column($data, 'episode'),
+        SORT_ASC,
+        $data
+    );
+} catch (GuzzleHttp\Exception\ServerException $excep) {
+    $excepError = "Sorry, we broke it. Please refresh the page to fix the issue.";
+}
 
 //Render the template
-echo $twig->render('page.html', ["episodes" => $data]);
+echo $twig->render('page.html', ["episodes" => $data, "errorMsg" => $errorMsg]);

@@ -1,7 +1,13 @@
 .episode {
+    margin: 12px auto;
+    h4{
+        color: $gray-darker;
+        small{
+            color: $gray-dark;
+        }
+    }
     p {
         font-family: 'PT Serif', serif;
-        font-size: 15px;
-        line-height: 25px;            
+        font-size: $font-size-small;
     }
 }

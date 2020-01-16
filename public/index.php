@@ -11,7 +11,13 @@ $res = $client->request('GET', 'http://3ev.org/dev-test-api/');
 $data = json_decode($res->getBody(), true);
 
 //Sort the episodes
-array_multisort(array_keys($data), SORT_ASC, SORT_STRING, $data);
+array_multisort(
+    array_column($data, 'season'),
+    SORT_ASC,
+    array_column($data, 'episode'),
+    SORT_ASC,
+    $data
+);
 
 //Render the template
 echo $twig->render('page.html', ["episodes" => $data]);

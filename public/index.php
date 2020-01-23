@@ -1,17 +1,33 @@
 <?php
 require_once '../vendor/autoload.php';
 
+define('CLASS_DIR', 'app/');
+
+spl_autoload_register(function ($class_name) {
+    require_once sprintf(
+        '%s%s.php',
+        CLASS_DIR,
+        $class_name
+    );
+});
+
 //Load Twig templating environment
 $loader = new Twig_Loader_Filesystem('../templates/');
 $twig = new Twig_Environment($loader, ['debug' => true]);
 
-//Get the episodes from the API
-$client = new GuzzleHttp\Client();
-$res = $client->request('GET', 'http://3ev.org/dev-test-api/');
-$data = json_decode($res->getBody(), true);
+$episodes = new Episodes();
 
-//Sort the episodes
-array_multisort(array_keys($data), SORT_ASC, SORT_STRING, $data);
+$seasonFilter = ($_POST['season']) ?? null;
+
+$episodesList = $episodes->get($seasonFilter);
+$seasonsList = $episodes->retrieveSeasons($episodesList);
 
 //Render the template
-echo $twig->render('page.html', ["episodes" => $data]);
+echo $twig->render(
+    'page.html',
+    [
+        "episodes" => $episodesList,
+        "seasons" => $seasonsList,
+        "seasonFilter" => $seasonFilter,
+    ]
+);

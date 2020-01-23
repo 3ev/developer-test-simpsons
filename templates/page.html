@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bobby's Favourite Simpson's Epsiodes</title>
     <link href="/resources/compiled/css/main.css" rel="stylesheet">
-    <head>
+</head>
 <body>
     <div class="jumbotron header">
       <div class="container-fluid text-center">
@@ -14,15 +14,45 @@
       </div>
     </div>
 
+    {% if episodes is empty %}
+        {{ include('error.html') }}
+    {% else %}
+
     <div class="container">
+        <div class="row">
+            <div class="form-season-filter">
+                <form method="POST">
+                    <select name="season">
+                        <option value="">Select Season</option>
+                        <option value="0">View All</option>
+                        {% for season in seasons %}
+                        <option value="{{ season }}">Season {{ season }}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="submit">
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+        {% if 0 == seasonFilter %}
+            <h2>All episodes</h2>
+        {% else %}
+            <h2>Season {{seasonFilter}} episodes</h2>
+        {% endif %}
+
         {% for episode in episodes %}
             {% if loop.index%2 == 1 %}<div class="row">{%endif %}
 
                 {{ include('episode.html') }}
-        
+
             {% if loop.index%2 == 0 %}</div>{%endif %}
         {% endfor %}
     </div>
+
+    {% endif %}
 
     <footer class="footer">
       <div class="container-fluid">
